@@ -20,7 +20,7 @@ import { AuthProvider } from './contexts/Auth';
 
 function AppComponent() {
   const [fontsLoaded] = useFonts({
-    Poppins_400Regular,
+    Poppins_400Regular, // //
     Poppins_500Medium,
     Poppins_700Bold,
     IndieFlower_400Regular,
