@@ -20,11 +20,7 @@ import { AuthProvider } from './contexts/Auth';
 
 function AppComponent() {
   const [fontsLoaded] = useFonts({
-<<<<<<< HEAD
     Poppins_400Regular, // //
-=======
-    Poppins_400Regular, //
->>>>>>> 83d3c42708f1630cf4f81d9d382d0d26418b796a
     Poppins_500Medium,
     Poppins_700Bold,
     IndieFlower_400Regular,
