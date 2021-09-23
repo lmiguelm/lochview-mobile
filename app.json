@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "lochview-mobile",
+    "slug": "lochview-mobile",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "lochview-mobile"
+}
