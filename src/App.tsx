@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components/native';
 
 import { ThemeProvider } from 'styled-components/native';
 import theme from './styles/theme';
@@ -11,18 +10,18 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
+import { IndieFlower_400Regular } from '@expo-google-fonts/indie-flower';
+
 import AppLoading from 'expo-app-loading';
 
-const Container = styled.View`
-  flex: 1;
-  background-color: ${({ theme }) => theme.colors.primary};
-`;
+import { Home } from './screens/Home';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
     Poppins_700Bold,
+    IndieFlower_400Regular,
   });
 
   if (!fontsLoaded) {
@@ -31,7 +30,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container />
+      <Home />
     </ThemeProvider>
   );
 }
