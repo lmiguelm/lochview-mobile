@@ -15,6 +15,7 @@ import { IndieFlower_400Regular } from '@expo-google-fonts/indie-flower';
 import AppLoading from 'expo-app-loading';
 
 import { Home } from './screens/Home';
+import { SignIn } from './screens/SingIn';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,7 +31,8 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Home />
+      {/* <Home /> */}
+      <SignIn />
     </ThemeProvider>
   );
 }

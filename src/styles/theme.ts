@@ -8,7 +8,7 @@ export default {
 
     title: '#161D6F',
 
-    text: '#111',
+    text: '#333',
     text_details: 'rgba(22, 29, 111, 0.5)',
 
     danger: '#E33D3D',
@@ -18,7 +18,7 @@ export default {
   fonts: {
     regular: 'Poppins_400Regular',
     medium: 'Poppins_500Medium',
-    bold: 'Poppins_700Bold,',
+    bold: 'Poppins_700Bold',
     logo: 'IndieFlower_400Regular',
   },
 };
