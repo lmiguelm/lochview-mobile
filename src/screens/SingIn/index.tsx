@@ -11,12 +11,15 @@ import { Input } from '../../components/Input';
 
 import { Container, Description, Form, Title, Footer, Link, Header } from './styles';
 
-import { useTheme } from 'styled-components';
 import { PasswordInput } from '../../components/PasswordInput';
 import { ToastComponent } from '../../components/Toast';
 
+import { useTheme } from 'styled-components';
+import { useNavigation } from '@react-navigation/native';
+
 export function SignIn() {
   const { colors } = useTheme();
+  const { navigate } = useNavigation();
 
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
@@ -69,7 +72,7 @@ export function SignIn() {
   }, [loading]);
 
   function handleForgotPassword() {
-    // navigate to reset password
+    navigate('ForgotPasswordFirstStep');
   }
 
   return (

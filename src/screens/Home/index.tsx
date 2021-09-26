@@ -5,6 +5,7 @@ import { Easing } from 'react-native-reanimated';
 import backgroundImage from '../../assets/home-background.png';
 
 import { useTheme } from 'styled-components';
+import { useNavigation } from '@react-navigation/native';
 
 import { Button } from '../../components/Button';
 
@@ -60,7 +61,11 @@ const footerAnimation = {
 export function Home() {
   const { colors } = useTheme();
 
-  function handleNavigateToSignIn() {}
+  const { navigate } = useNavigation();
+
+  function handleNavigateToSignIn() {
+    navigate('SignIn');
+  }
   function handleNavigateToRegister() {}
 
   return (
