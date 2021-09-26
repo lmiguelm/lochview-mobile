@@ -13,6 +13,8 @@ export default {
 
     danger: '#E33D3D',
 
+    success: '#04D361',
+
     light: '#fff',
   },
   fonts: {
