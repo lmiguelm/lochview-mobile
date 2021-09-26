@@ -1,10 +1,7 @@
-import styled, { css } from 'styled-components/native';
+import styled from 'styled-components/native';
+import { MotiView } from 'moti';
 
-type Container = {
-  active?: boolean;
-};
-
-export const Container = styled.View<Container>`
+export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.light};
 
   width: 100%;
@@ -12,16 +9,9 @@ export const Container = styled.View<Container>`
 
   flex-direction: row;
 
-  border-radius: 5px;
+  border-radius: 4px;
 
   margin-bottom: 10px;
-
-  ${({ theme, active }) =>
-    active &&
-    css`
-      border-bottom-width: 1.25px;
-      border-bottom-color: ${({ theme }) => theme.colors.primary};
-    `}
 `;
 
 export const IconContainer = styled.View`
@@ -43,4 +33,15 @@ export const InputText = styled.TextInput`
   border-radius: 5px;
 
   color: ${({ theme }) => theme.colors.text};
+`;
+
+export const Line = styled(MotiView)`
+  height: 2px;
+  width: 0%;
+
+  position: absolute;
+
+  background-color: ${({ theme }) => theme.colors.primary};
+
+  bottom: 0;
 `;

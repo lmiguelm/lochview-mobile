@@ -1,11 +1,8 @@
+import styled from 'styled-components/native';
+import { MotiView } from 'moti';
 import { BorderlessButton } from 'react-native-gesture-handler';
-import styled, { css } from 'styled-components/native';
 
-type Container = {
-  active?: boolean;
-};
-
-export const Container = styled.View<Container>`
+export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.light};
 
   width: 100%;
@@ -16,13 +13,6 @@ export const Container = styled.View<Container>`
   border-radius: 5px;
 
   margin-bottom: 10px;
-
-  ${({ theme, active }) =>
-    active &&
-    css`
-      border-bottom-width: 1.25px;
-      border-bottom-color: ${({ theme }) => theme.colors.primary};
-    `}
 `;
 
 export const IconContainer = styled.View`
@@ -56,4 +46,15 @@ export const PasswordContainer = styled.View`
 export const PasswordVisibility = styled(BorderlessButton)`
   height: 24px;
   width: 24px;
+`;
+
+export const Line = styled(MotiView)`
+  height: 2px;
+  width: 0%;
+
+  position: absolute;
+
+  background-color: ${({ theme }) => theme.colors.primary};
+
+  bottom: 0;
 `;
