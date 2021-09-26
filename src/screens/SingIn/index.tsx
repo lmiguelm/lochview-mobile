@@ -1,8 +1,9 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment, useCallback } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Keyboard } from 'react-native';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
+import * as Yup from 'yup';
 
 import { BackButton } from '../../components/BackButton';
 import { Button } from '../../components/Button';
@@ -12,6 +13,12 @@ import { Container, Description, Form, Title, Footer, Link, Header } from './sty
 
 import { useTheme } from 'styled-components';
 import { PasswordInput } from '../../components/PasswordInput';
+import { ToastComponent } from '../../components/Toast';
+
+const schema = Yup.object().shape({
+  email: Yup.string().email('E-mail inválido!').required('E-mail é obrigatório!'),
+  password: Yup.string().required('Senha é obrigatória!'),
+});
 
 export function SignIn() {
   const { colors } = useTheme();
@@ -30,24 +37,31 @@ export function SignIn() {
     }
   }, [email, password]);
 
-  async function handleSubmit() {
+  const handleSubmit = useCallback(async () => {
     setLoading(true);
 
     try {
-      setTimeout(() => {
-        setLoading(false);
-        throw new Error();
-      }, 5000);
-    } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Ops',
-        text2: 'Falha ao autenticar. Verifique suas credenciais!',
-      });
-    }
-  }
+      // validation
+      const data = { email, password };
+      await schema.validate(data);
 
-  function handleForgotPassword() {}
+      // todo - navigate to dashboard
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        Toast.show({
+          type: 'error',
+          text1: 'Ops!',
+          text2: error.message,
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [loading]);
+
+  function handleForgotPassword() {
+    // navigate to reset password
+  }
 
   return (
     <Fragment>
@@ -136,7 +150,7 @@ export function SignIn() {
         </TouchableWithoutFeedback>
       </Container>
 
-      <Toast ref={(ref) => Toast.setRef(ref)} />
+      <ToastComponent />
     </Fragment>
   );
 }
