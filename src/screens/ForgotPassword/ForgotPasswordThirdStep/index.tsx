@@ -16,8 +16,11 @@ import { Bullet } from '../../../components/Bullet';
 import { MotiView } from '@motify/components';
 import { PasswordInput } from '../../../components/PasswordInput';
 
+import { useNavigation } from '@react-navigation/core';
+
 export function ForgotPasswordThirdStep() {
   const { colors } = useTheme();
+  const { navigate } = useNavigation();
 
   const passwordRef = useRef<TextInput>(null);
   const confirmPasswordRef = useRef<TextInput>(null);
@@ -61,6 +64,12 @@ export function ForgotPasswordThirdStep() {
       }
 
       // todo - navigate
+      navigate('Feedback', {
+        nextScreen: 'SignIn',
+        title: 'Feito!',
+        description: 'Senha alterada com sucesso!',
+        type: 'success',
+      });
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         Toast.show({
