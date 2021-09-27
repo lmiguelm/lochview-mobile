@@ -16,6 +16,7 @@ export default {
     success: '#04D361',
 
     light: '#fff',
+    light_dark: '#ccc',
   },
   fonts: {
     regular: 'Poppins_400Regular',

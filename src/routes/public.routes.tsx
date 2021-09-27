@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { Home } from '../screens/Home';
 import { SignIn } from '../screens/SingIn';
+import { Feedback } from '../screens/Feedback';
 
 import { ForgotPasswordFirstStep } from '../screens/ForgotPassword/ForgotPasswordFirstStep';
 import { ForgotPasswordSecondStep } from '../screens/ForgotPassword/ForgotPasswordSecondStep';
@@ -20,6 +21,7 @@ export function PublicRoutes() {
     >
       <Screen name="Home" component={Home} />
       <Screen name="SignIn" component={SignIn} />
+      <Screen name="Feedback" component={Feedback} />
 
       <Group>
         <Screen name="ForgotPasswordFirstStep" component={ForgotPasswordFirstStep} />
