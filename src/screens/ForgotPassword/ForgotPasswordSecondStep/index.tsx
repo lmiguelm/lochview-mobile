@@ -17,36 +17,50 @@ import { MotiView } from '@motify/components';
 
 import { useTheme } from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+const schema = Yup.object()
+  .shape({
+    code: Yup.number().positive(),
+  })
+  .required();
+
+type FormData = {
+  code: number;
+};
 
 export function ForgotPasswordSecondStep() {
   const { colors } = useTheme();
   const { navigate } = useNavigation();
 
+  const {
+    formState: { errors },
+    handleSubmit,
+    control,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
   const codeRef = useRef<TextInput>(null);
 
   const [loading, setLoading] = useState(false);
-  const [isEnabledButton, setIsEnabledButton] = useState(false);
-
-  const [code, setCode] = useState('');
 
   useEffect(() => {
-    if (code.trim().length === 6) {
-      return setIsEnabledButton(true);
-    } else {
-      return setIsEnabledButton(false);
+    if (errors.code && errors.code.message) {
+      Toast.show({
+        type: 'error',
+        text1: 'Ops!',
+        text2: errors.code.message,
+      });
     }
-  }, [code]);
+  }, [errors.code]);
 
-  async function handleNextStep() {
+  async function handleNextStep({ code }: FormData) {
     setLoading(true);
 
     try {
-      // validation
-      const schema = Yup.object().shape({
-        code: Yup.number().positive(),
-      });
-
-      await schema.validate({ code });
+      console.log(code);
 
       // todo - navigate to dashboard
       navigate('ForgotPasswordThirdStep');
@@ -117,18 +131,18 @@ export function ForgotPasswordSecondStep() {
             }}
           >
             <Input
+              name="code"
+              control={control}
               ref={codeRef}
               icon="lock"
               placeholder="Código"
               keyboardType="numeric"
               autoCapitalize="none"
               autoCorrect={false}
-              value={code}
-              onChangeText={(value) => setCode(value)}
-              isFilled={code.trim().length === 6}
               returnKeyType="next"
-              onSubmitEditing={() => handleNextStep()}
+              onSubmitEditing={handleSubmit(handleNextStep)}
               maxLength={6}
+              hasError={!!errors.code}
             />
           </Form>
 
@@ -149,8 +163,7 @@ export function ForgotPasswordSecondStep() {
             <Button
               title="Próximo"
               loading={loading}
-              onPress={handleNextStep}
-              enabled={isEnabledButton}
+              onPress={handleSubmit(handleNextStep) as any}
             />
           </Footer>
         </TouchableWithoutFeedback>

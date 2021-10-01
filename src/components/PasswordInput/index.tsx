@@ -15,53 +15,49 @@ import {
 } from './styles';
 
 import { useTheme } from 'styled-components';
+import { useController, useForm } from 'react-hook-form';
 
 type Props = TextInputProps & {
-  icon: React.ComponentProps<typeof Feather>['name'];
-  isFilled?: boolean;
+  hasError?: boolean;
+  control: any;
+  name: string;
 };
 
 export const PasswordInput = forwardRef(
-  ({ icon, isFilled = false, ...rest }: Props, ref: Ref<TextInput>) => {
+  ({ name, control, hasError = false, ...rest }: Props, ref: Ref<TextInput>) => {
     const { colors } = useTheme();
 
-    const [isActive, setIsActive] = useState(false);
+    const { field } = useController({
+      control,
+      name,
+      defaultValue: '',
+    });
+
     const [showPass, setShowPass] = useState(false);
 
-    function handleFocus() {
-      setIsActive(true);
-    }
-
-    function handleBlur() {
-      setIsActive(false);
-    }
-
-    function togglePassword() {
+    function handleTogglePassword() {
       setShowPass((oldstate) => !oldstate);
     }
 
     return (
-      <Container>
+      <Container hasError={hasError}>
         <IconContainer>
-          <Feather
-            name={icon}
-            size={24}
-            color={isFilled || isActive ? colors.primary : colors.text_details}
-          />
+          <Feather name="lock" size={24} color={hasError ? colors.danger : colors.primary} />
         </IconContainer>
 
         <InputText
           {...rest}
           ref={ref}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
           secureTextEntry={!showPass}
           autoCapitalize="none"
           autoCorrect={false}
+          value={field.value}
+          onChangeText={field.onChange}
+          onBlur={field.onBlur}
         />
 
         <PasswordContainer>
-          <PasswordVisibility onPress={togglePassword}>
+          <PasswordVisibility onPress={handleTogglePassword}>
             {showPass ? (
               <Feather name="eye-off" size={24} color={colors.primary} />
             ) : (
@@ -69,27 +65,6 @@ export const PasswordInput = forwardRef(
             )}
           </PasswordVisibility>
         </PasswordContainer>
-
-        <AnimatePresence exitBeforeEnter>
-          {isActive && (
-            <Line
-              from={{
-                width: '0%',
-              }}
-              animate={{
-                width: '100%',
-              }}
-              exit={{
-                width: '0%',
-              }}
-              transition={{
-                type: 'timing',
-                duration: 500,
-                easing: Easing.ease,
-              }}
-            />
-          )}
-        </AnimatePresence>
       </Container>
     );
   }

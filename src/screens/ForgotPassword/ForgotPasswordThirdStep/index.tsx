@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment, useCallback, useRef } from 'react';
+import React, { useEffect, useState, Fragment, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Keyboard, TextInput } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -17,42 +17,61 @@ import { MotiView } from '@motify/components';
 import { PasswordInput } from '../../../components/PasswordInput';
 
 import { useNavigation } from '@react-navigation/core';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+// validation
+const schema = Yup.object()
+  .shape({
+    password: Yup.string().required('Senha é obrigatório!'),
+    confirmPassword: Yup.string().required('Confirmação de senha é obrigatório!'),
+  })
+  .required();
+
+type FormData = {
+  password: string;
+  confirmPassword: string;
+};
 
 export function ForgotPasswordThirdStep() {
   const { colors } = useTheme();
   const { navigate } = useNavigation();
 
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
   const passwordRef = useRef<TextInput>(null);
   const confirmPasswordRef = useRef<TextInput>(null);
 
   const [loading, setLoading] = useState(false);
-  const [isEnabledButton, setIsEnabledButton] = useState(false);
-
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   useEffect(() => {
-    console.log({ a: password.length, b: confirmPassword.length });
-    if (password.trim().length > 0 && confirmPassword.trim().length > 0) {
-      return setIsEnabledButton(true);
-    } else {
-      return setIsEnabledButton(false);
-    }
-  }, [password, confirmPassword]);
+    let messageError = '';
 
-  async function handleSubmit() {
+    if (errors.password) {
+      messageError = errors.password.message;
+    } else if (errors.confirmPassword) {
+      messageError = errors.confirmPassword.message;
+    } else {
+      return;
+    }
+
+    Toast.show({
+      type: 'error',
+      text1: 'Ops!',
+      text2: messageError,
+    });
+  }, [errors.password, errors.confirmPassword]);
+
+  async function handleSavePass({ password, confirmPassword }: FormData) {
     setLoading(true);
 
     try {
-      // validation
-      const schema = Yup.object().shape({
-        password: Yup.string().required('Senha é obrigatório!'),
-        confirmPassword: Yup.string().required('Senha é obrigatório!'),
-      });
-
-      const data = { password, confirmPassword };
-      await schema.validate(data);
-
       if (password !== confirmPassword) {
         Toast.show({
           type: 'error',
@@ -138,30 +157,28 @@ export function ForgotPasswordThirdStep() {
           >
             <PasswordInput
               ref={passwordRef}
-              icon="lock"
+              name="password"
+              control={control}
               placeholder="Insira a senha"
               keyboardType="default"
               autoCapitalize="none"
               autoCorrect={false}
-              value={password}
-              onChangeText={(value) => setPassword(value)}
-              isFilled={password.trim().length > 0}
               returnKeyType="next"
               onSubmitEditing={() => confirmPasswordRef.current.focus()}
+              hasError={!!errors.password}
             />
 
             <PasswordInput
               ref={confirmPasswordRef}
-              icon="lock"
+              name="confirmPassword"
+              control={control}
               placeholder="Insira novamente"
               keyboardType="default"
               autoCapitalize="none"
               autoCorrect={false}
-              value={confirmPassword}
-              onChangeText={(value) => setConfirmPassword(value)}
-              isFilled={confirmPassword.trim().length > 0}
               returnKeyType="done"
-              onSubmitEditing={handleSubmit}
+              onSubmitEditing={handleSubmit(handleSavePass)}
+              hasError={!!errors.confirmPassword}
             />
           </Form>
 
@@ -182,8 +199,7 @@ export function ForgotPasswordThirdStep() {
             <Button
               title="Concluir"
               loading={loading}
-              onPress={handleSubmit}
-              enabled={isEnabledButton}
+              onPress={handleSubmit(handleSavePass) as any}
             />
           </Footer>
         </TouchableWithoutFeedback>

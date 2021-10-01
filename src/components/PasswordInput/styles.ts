@@ -1,8 +1,12 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { MotiView } from 'moti';
 import { BorderlessButton } from 'react-native-gesture-handler';
 
-export const Container = styled.View`
+type Props = {
+  hasError: boolean;
+};
+
+export const Container = styled.View<Props>`
   background-color: ${({ theme }) => theme.colors.light};
 
   width: 100%;
@@ -13,6 +17,13 @@ export const Container = styled.View`
   border-radius: 5px;
 
   margin-bottom: 10px;
+
+  ${({ hasError, theme }) =>
+    hasError &&
+    css`
+      border-color: ${theme.colors.danger};
+      border-width: 1px;
+    `}
 `;
 
 export const IconContainer = styled.View`

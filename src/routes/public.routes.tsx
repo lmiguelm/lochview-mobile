@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { Tour } from '../screens/Tour';
 import { Home } from '../screens/Home';
 import { SignIn } from '../screens/SingIn';
 import { Feedback } from '../screens/Feedback';
@@ -17,8 +18,9 @@ export function PublicRoutes() {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Home"
+      initialRouteName="Tour"
     >
+      <Screen name="Tour" component={Tour} />
       <Screen name="Home" component={Home} />
       <Screen name="SignIn" component={SignIn} />
       <Screen name="Feedback" component={Feedback} />

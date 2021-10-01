@@ -1,75 +1,88 @@
-import React, { useEffect, useState, Fragment, useCallback, useRef } from 'react';
-import { StatusBar } from 'expo-status-bar';
+import React, { useState, Fragment, useRef, useEffect } from 'react';
 import { Keyboard, TextInput } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
+
 import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 
 import { BackButton } from '../../components/BackButton';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
+import { ToastComponent } from '../../components/Toast';
+import { PasswordInput } from '../../components/PasswordInput';
 
 import { Container, Description, Form, Title, Footer, Link, Header } from './styles';
 
-import { PasswordInput } from '../../components/PasswordInput';
-import { ToastComponent } from '../../components/Toast';
-
 import { useTheme } from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
+
+const schema = Yup.object()
+  .shape({
+    email: Yup.string().required('E-mail é obrigatório!').email('E-mail inválido'),
+    password: Yup.string().required('Senha é obrigatório!'),
+  })
+  .required();
+
+type FormData = {
+  email: string;
+  password: string;
+};
 
 export function SignIn() {
   const { colors } = useTheme();
   const { navigate } = useNavigation();
 
-  const emailRef = useRef<TextInput>(null);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+  });
+
   const passwordRef = useRef<TextInput>(null);
 
   const [loading, setLoading] = useState(false);
-  const [isEnabledButton, setIsEnabledButton] = useState(false);
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   useEffect(() => {
-    if (email.trim().length > 0 && password.trim().length > 0) {
-      return setIsEnabledButton(true);
+    let errorMessage = '';
+
+    if (errors.email) {
+      errorMessage = errors.email.message;
+    } else if (errors.password) {
+      errorMessage = errors.password.message;
     } else {
-      return setIsEnabledButton(false);
+      return;
     }
-  }, [email, password]);
 
-  const handleSubmit = useCallback(async () => {
-    setLoading(true);
+    Toast.show({
+      type: 'error',
+      text1: 'Ops!',
+      text2: errorMessage,
+    });
+  }, [errors.email, errors.password]);
 
+  async function handleSignIn(data: FormData) {
     try {
-      // validation
-      const schema = Yup.object().shape({
-        email: Yup.string().email('E-mail inválido!').required('E-mail é obrigatório!'),
-        password: Yup.string().required('Senha é obrigatória!'),
-      });
-
-      const data = { email, password };
-      await schema.validate(data);
-
-      // todo - navigate to dashboard
+      setLoading(true);
+      // call API
     } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        Toast.show({
-          type: 'error',
-          text1: 'Ops!',
-          text2: error.message,
-        });
-      } else {
-        Toast.show({
-          type: 'error',
-          text1: 'Ops!',
-          text2: 'Ocorreu um erro ao tentar realizar o login. Tente novamente!',
-        });
-      }
-
       setLoading(false);
+
+      console.log(error);
+
+      Toast.show({
+        type: 'error',
+        text1: 'Ops!',
+        text2: 'Ocorreu um erro ao realizar a autenticação!',
+      });
     }
-  }, [loading]);
+  }
 
   function handleForgotPassword() {
     navigate('ForgotPasswordFirstStep');
@@ -115,30 +128,20 @@ export function SignIn() {
             }}
           >
             <Input
-              ref={emailRef}
               icon="mail"
+              name="email"
               placeholder="E-mail"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={email}
-              onChangeText={(value) => setEmail(value)}
-              isFilled={email.trim().length > 0}
-              returnKeyType="next"
+              control={control}
+              hasError={!!errors.email}
               onSubmitEditing={() => passwordRef.current.focus()}
             />
 
             <PasswordInput
-              ref={passwordRef}
-              icon="lock"
+              name="password"
               placeholder="Senha"
-              value={password}
-              onChangeText={(value) => setPassword(value)}
-              isFilled={password.trim().length > 0}
-              returnKeyType="done"
-              onSubmitEditing={() => {
-                isEnabledButton && handleSubmit();
-              }}
+              control={control}
+              hasError={!!errors.password}
+              onSubmitEditing={handleSubmit(handleSignIn)}
             />
 
             <TouchableOpacity activeOpacity={0.7} onPress={handleForgotPassword}>
@@ -163,8 +166,8 @@ export function SignIn() {
             <Button
               title="Entrar"
               loading={loading}
-              onPress={handleSubmit}
-              enabled={isEnabledButton}
+              onPress={handleSubmit(handleSignIn) as any}
+              enabled={true}
             />
           </Footer>
         </TouchableWithoutFeedback>

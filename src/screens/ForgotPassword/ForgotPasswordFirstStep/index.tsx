@@ -3,8 +3,10 @@ import { StatusBar } from 'expo-status-bar';
 import { Keyboard, TextInput } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
-import * as Yup from 'yup';
 import { MotiView } from '@motify/components';
+
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { BackButton } from '../../../components/BackButton';
 import { Button } from '../../../components/Button';
@@ -17,36 +19,46 @@ import { Bullet } from '../../../components/Bullet';
 
 import { useTheme } from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
+import { useForm } from 'react-hook-form';
+
+const schema = Yup.object()
+  .shape({
+    email: Yup.string().required('E-mail é obrigatório!').email('E-mail inválido!'),
+  })
+  .required();
 
 export function ForgotPasswordFirstStep() {
   const { colors } = useTheme();
   const { navigate } = useNavigation();
 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
   const emailRef = useRef<TextInput>(null);
 
   const [loading, setLoading] = useState(false);
-  const [isEnabledButton, setIsEnabledButton] = useState(false);
-
-  const [email, setEmail] = useState('');
 
   useEffect(() => {
-    if (email.trim().length > 0) {
-      return setIsEnabledButton(true);
-    } else {
-      return setIsEnabledButton(false);
+    if (errors.email && errors.email.message) {
+      Toast.show({
+        type: 'error',
+        text1: 'Ops!',
+        text2: errors.email.message,
+      });
     }
-  }, [email]);
+  }, [errors.email]);
 
   async function handleNextStep() {
     try {
-      const schema = Yup.object().shape({
-        email: Yup.string().required('E-mail é obrigatório!').email('E-mail inválido!'),
-      });
-
-      await schema.validate({ email });
-
+      setLoading(true);
       navigate('ForgotPasswordSecondStep');
     } catch (error) {
+      setLoading(false);
       Toast.show({
         type: 'error',
         text1: 'Ops!',
@@ -103,17 +115,17 @@ export function ForgotPasswordFirstStep() {
             }}
           >
             <Input
+              name="email"
+              control={control}
               ref={emailRef}
               icon="mail"
               placeholder="E-mail"
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
-              value={email}
-              onChangeText={(value) => setEmail(value)}
-              isFilled={email.trim().length > 0}
               returnKeyType="next"
-              onSubmitEditing={() => handleNextStep()}
+              onSubmitEditing={handleSubmit(handleNextStep)}
+              hasError={!!errors.email}
             />
           </Form>
 
@@ -134,8 +146,7 @@ export function ForgotPasswordFirstStep() {
             <Button
               title="Próximo"
               loading={loading}
-              onPress={handleNextStep}
-              enabled={isEnabledButton}
+              onPress={handleSubmit(handleNextStep) as any}
             />
           </Footer>
         </TouchableWithoutFeedback>
