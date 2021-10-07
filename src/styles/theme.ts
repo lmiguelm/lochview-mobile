@@ -17,6 +17,8 @@ export default {
 
     light: '#fff',
     light_dark: '#ccc',
+
+    overlay: 'rgba(0,0,0,0.7)',
   },
   fonts: {
     regular: 'Poppins_400Regular',
