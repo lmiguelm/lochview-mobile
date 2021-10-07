@@ -2,6 +2,9 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { PublicRoutes } from './public.routes';
+import { PrivateRoutes } from './private.routes';
+
+import { useAuth } from '../hooks/useAuth';
 
 export type FeedbackParams = {
   title: string;
@@ -19,14 +22,17 @@ declare global {
       ForgotPasswordSecondStep: undefined;
       ForgotPasswordThirdStep: undefined;
       Feedback: FeedbackParams;
+      Dashboard: undefined;
+      BedroomDetails: undefined;
+      Scheduling: undefined;
     }
   }
 }
 
 export function Routes() {
+  const { isLogged } = useAuth();
+
   return (
-    <NavigationContainer>
-      <PublicRoutes />
-    </NavigationContainer>
+    <NavigationContainer>{isLogged ? <PrivateRoutes /> : <PublicRoutes />}</NavigationContainer>
   );
 }
