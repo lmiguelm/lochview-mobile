@@ -24,10 +24,10 @@ export function Button({
 
   return (
     <Container
-      {...rest}
       background={background}
       enabled={!loading && enabled}
       disabled={loading || !enabled}
+      {...rest}
     >
       {loading ? (
         <ActivityIndicator color={colors.light} size="small" />
