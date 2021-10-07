@@ -18,6 +18,7 @@ import { Container, Description, Form, Title, Footer, Link, Header } from './sty
 
 import { useTheme } from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../../hooks/useAuth';
 
 const schema = Yup.object()
   .shape({
@@ -34,6 +35,7 @@ type FormData = {
 export function SignIn() {
   const { colors } = useTheme();
   const { navigate } = useNavigation();
+  const { signIn } = useAuth();
 
   const {
     control,
@@ -67,10 +69,11 @@ export function SignIn() {
     });
   }, [errors.email, errors.password]);
 
-  async function handleSignIn(data: FormData) {
+  async function handleSignIn({ email, password }: FormData) {
     try {
       setLoading(true);
-      // call API
+      await signIn(email, password);
+      navigate('Dashboard');
     } catch (error) {
       setLoading(false);
 
