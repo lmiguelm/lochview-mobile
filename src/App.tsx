@@ -15,6 +15,7 @@ import { IndieFlower_400Regular } from '@expo-google-fonts/indie-flower';
 import AppLoading from 'expo-app-loading';
 
 import { Routes } from './routes/index.routes';
+import { AuthProvider } from './contexts/Auth';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,7 +31,9 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Routes />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </ThemeProvider>
   );
 }
