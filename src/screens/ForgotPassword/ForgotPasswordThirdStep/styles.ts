@@ -8,7 +8,7 @@ export const Container = styled.KeyboardAvoidingView`
 
   background-color: ${({ theme }) => theme.colors.background};
 
-  padding: ${getStatusBarHeight() + 30}px 30px 30px 30px;
+  padding: ${getStatusBarHeight()}px 30px 30px 30px;
 `;
 
 export const Header = styled(MotiView)`
