@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
+import { TextInput } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -34,11 +35,30 @@ import { Input } from '../../components/Input';
 
 import { useTheme } from 'styled-components';
 import { useForm } from 'react-hook-form';
+import { PasswordInput } from '../../components/PasswordInput';
+import { RFPercentage } from 'react-native-responsive-fontsize';
+
+type FormData = {
+  email: string;
+  name: string;
+};
+
+type FormPassword = {
+  password: string;
+  newPassword: string;
+  confirmPassword: string;
+};
 
 export function Profile() {
   const { colors } = useTheme();
-  const { control } = useForm();
+  const { control, handleSubmit } = useForm();
   const { width } = useWindowDimensions();
+
+  const inputNameRef = useRef<TextInput>(null);
+  const inputEmailRef = useRef<TextInput>(null);
+  const inputPasswordRef = useRef<TextInput>(null);
+  const inputNewPasswordRef = useRef<TextInput>(null);
+  const inputConfirmPasswordRef = useRef<TextInput>(null);
 
   const [currentSelected, setCurrentSelected] = useState<'data' | 'password'>('data');
 
@@ -80,23 +100,20 @@ export function Profile() {
     }
   }
 
+  async function handleChangeData(data: FormData) {
+    console.log(data);
+  }
+
+  async function handleChangePassword(data: FormPassword) {
+    console.log(data);
+  }
+
   return (
     <Fragment>
       <KeyboardAvoidingView behavior="position" enabled>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <Container>
-            <Header
-              from={{
-                opacity: 0,
-              }}
-              animate={{
-                opacity: 1,
-              }}
-              transition={{
-                type: 'timing',
-                duration: 1000,
-              }}
-            >
+            <Header>
               <AvatarContainer>
                 <ImageWrapper>
                   <Avatar source={{ uri: avatar }} />
@@ -156,8 +173,63 @@ export function Profile() {
                   duration: 1000,
                 }}
               >
-                <Input control={control} icon="user" placeholder="Nome" />
-                <Input control={control} icon="mail" placeholder="E-mail" />
+                {currentSelected === 'data' ? (
+                  <>
+                    <Input
+                      ref={inputNameRef}
+                      name="name"
+                      control={control}
+                      icon="user"
+                      placeholder="Nome"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      onSubmitEditing={() => inputEmailRef.current.focus()}
+                      returnKeyType="next"
+                    />
+
+                    <Input
+                      ref={inputEmailRef}
+                      name="email"
+                      control={control}
+                      icon="mail"
+                      placeholder="E-mail"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      keyboardType="email-address"
+                      onSubmitEditing={Keyboard.dismiss}
+                      returnKeyType="next"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <PasswordInput
+                      ref={inputPasswordRef}
+                      name="password"
+                      control={control}
+                      placeholder="Senha atual"
+                      onSubmitEditing={() => inputNewPasswordRef.current.focus()}
+                      returnKeyType="next"
+                    />
+
+                    <PasswordInput
+                      ref={inputNewPasswordRef}
+                      name="newPassword"
+                      control={control}
+                      placeholder="Nova senha"
+                      onSubmitEditing={() => inputConfirmPasswordRef.current.focus()}
+                      returnKeyType="next"
+                    />
+
+                    <PasswordInput
+                      ref={inputConfirmPasswordRef}
+                      name="ConnfirmPassword"
+                      control={control}
+                      placeholder="Repetir senha"
+                      onSubmitEditing={Keyboard.dismiss}
+                      returnKeyType="next"
+                    />
+                  </>
+                )}
               </Form>
             </Content>
 
@@ -191,7 +263,14 @@ export function Profile() {
                 duration: 1000,
               }}
             >
-              <Button title="Salvar" />
+              <Button
+                title="Salvar"
+                onPress={
+                  currentSelected === 'data'
+                    ? handleSubmit(handleChangePassword)
+                    : (handleSubmit(handleChangeData) as any)
+                }
+              />
             </Footer>
           </Container>
         </TouchableWithoutFeedback>

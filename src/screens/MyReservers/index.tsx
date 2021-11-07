@@ -5,14 +5,14 @@ import { Feather, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@ex
 
 import { Bedroom } from '../../components/Bedroom';
 
-import { Container, Content, Form, Group, Groups, Header } from './styles';
+import { Container, Content, Form, Header, ReserveLabel, ReserveValue } from './styles';
 import { useTheme } from 'styled-components';
 import { SearchInput } from '../../components/SearchInput';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { Filter } from '../../components/Filter';
 
-export function Dashboard() {
+export function MyReservers() {
   const { colors } = useTheme();
   const { width } = useWindowDimensions();
 
@@ -71,13 +71,14 @@ export function Dashboard() {
             <SearchInput
               value={searchText}
               onChangeText={(value) => setSearchText(value)}
-              placeholder="Buscar por quartos"
+              placeholder="Buscar reserva"
             />
           </Form>
         </Header>
 
         <Content>
-          <Filter />
+          <ReserveLabel>Toal de reservas</ReserveLabel>
+          <ReserveValue>10</ReserveValue>
         </Content>
 
         <FlatList
@@ -88,7 +89,7 @@ export function Dashboard() {
             padding: 30,
           }}
           style={{
-            height: RFPercentage(60),
+            height: RFPercentage(68),
             flexGrow: 0,
           }}
           showsVerticalScrollIndicator={false}

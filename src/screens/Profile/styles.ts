@@ -7,31 +7,32 @@ type SwitchProps = {
   active?: boolean;
 };
 
-export const Container = styled.View`
-  background-color: ${({ theme }) => theme.colors.background};
-`;
+export const Container = styled.View``;
 
-export const Header = styled(MotiView)`
-  height: ${RFPercentage(18)}px;
+export const Header = styled.View`
+  height: ${RFPercentage(11)}px;
   background-color: ${({ theme }) => theme.colors.primary};
+
+  border-bottom-width: 5px;
+  border-bottom-color: ${({ theme }) => theme.colors.secondary};
 `;
 
 export const AvatarContainer = styled.View`
   align-self: center;
 
   position: absolute;
-  bottom: -90px;
+  bottom: -60px;
 `;
 
 export const Avatar = styled.Image`
-  height: 180px;
-  width: 180px;
+  height: 120px;
+  width: 120px;
   border-radius: 90px;
 `;
 
 export const ImageWrapper = styled.View`
-  height: 190px;
-  width: 190px;
+  height: 128px;
+  width: 128px;
   border-radius: 95px;
 
   background-color: ${({ theme }) => theme.colors.secondary};
@@ -41,8 +42,8 @@ export const ImageWrapper = styled.View`
 `;
 
 export const CameraContainer = styled(RectButton)`
-  height: 50px;
-  width: 50px;
+  height: 35px;
+  width: 35px;
 
   background-color: ${({ theme }) => theme.colors.secondary};
   border-radius: 8px;
@@ -56,7 +57,7 @@ export const CameraContainer = styled(RectButton)`
 `;
 
 export const Content = styled.View`
-  margin-top: 130px;
+  margin-top: 90px;
   padding: 0 30px;
 `;
 
@@ -88,7 +89,7 @@ export const SwitchName = styled.Text<SwitchProps>`
 `;
 
 export const Form = styled(MotiView)`
-  margin-top: 90px;
+  margin-top: 60px;
 `;
 
 export const Footer = styled(MotiView)`

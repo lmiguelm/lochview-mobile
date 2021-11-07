@@ -25,6 +25,8 @@ declare global {
       Dashboard: undefined;
       BedroomDetails: undefined;
       Scheduling: undefined;
+      Confirmation: undefined;
+      PrivateDrawer: undefined;
     }
   }
 }

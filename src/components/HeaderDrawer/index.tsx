@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { DrawerHeaderProps } from '@react-navigation/drawer';
 import { Feather } from '@expo/vector-icons';
 import { BorderlessButton } from 'react-native-gesture-handler';
@@ -35,30 +36,21 @@ export function HeaderDrawer({ drawer }: Props) {
 
   return (
     <Fragment>
-      <Header
-        from={{
-          opacity: 0,
-        }}
-        animate={{
-          opacity: 1,
-        }}
-        transition={{
-          type: 'timing',
-          duration: 1000,
-        }}
-      >
-        <Wrapper>
-          <BorderlessButton onPress={handleOpenDrawer}>
-            <Feather name="menu" size={24} color={colors.secondary} />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Header>
+          <Wrapper>
+            <BorderlessButton onPress={handleOpenDrawer}>
+              <Feather name="menu" size={24} color={colors.secondary} />
+            </BorderlessButton>
+
+            <Title>{name === 'Minhas reservas' ? 'Reservas' : name}</Title>
+          </Wrapper>
+
+          <BorderlessButton onPress={onShowModal}>
+            <Feather name="power" size={24} color={colors.secondary} />
           </BorderlessButton>
-
-          <Title>{name === 'Minhas reservas' ? 'Reservas' : name}</Title>
-        </Wrapper>
-
-        <BorderlessButton onPress={onShowModal}>
-          <Feather name="power" size={24} color={colors.secondary} />
-        </BorderlessButton>
-      </Header>
+        </Header>
+      </TouchableWithoutFeedback>
 
       <ModalSignOut visible={showModal} onClose={onCloseModal} />
     </Fragment>

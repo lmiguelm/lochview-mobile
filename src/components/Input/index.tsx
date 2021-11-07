@@ -10,7 +10,7 @@ import { useTheme } from 'styled-components';
 type Props = TextInputProps & {
   icon: React.ComponentProps<typeof Feather>['name'];
   control: any;
-  name?: string;
+  name: string;
   hasError?: boolean;
 };
 
@@ -32,6 +32,7 @@ export const Input = forwardRef(
 
         <InputText
           {...rest}
+          ref={ref}
           value={field.value}
           onChangeText={field.onChange}
           onBlur={field.onBlur}

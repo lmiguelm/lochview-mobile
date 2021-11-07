@@ -8,6 +8,7 @@ import { DrawerIcon } from '../components/DraweIcon';
 
 import { Dashboard } from '../screens/Dashboard';
 import { Profile } from '../screens/Profile';
+import { MyReservers } from '../screens/MyReservers';
 
 import { useTheme } from 'styled-components';
 
@@ -65,7 +66,7 @@ export function PrivateDrawer() {
 
       <Screen
         name="Minhas reservas"
-        component={Dashboard}
+        component={MyReservers}
         options={{
           drawerIcon: ({ size, color, focused }) => (
             <DrawerIcon icon="bookmark" size={size} color={color} focused={focused} />
