@@ -13,7 +13,7 @@ type Props = {
 };
 
 export function AuthProvider({ children }: Props) {
-  const [isLogged, setIsLogged] = useState(true);
+  const [isLogged, setIsLogged] = useState(false);
 
   const signIn = useCallback(
     async (email: string, password: string) => {

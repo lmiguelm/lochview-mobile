@@ -1,11 +1,15 @@
 {
   "expo": {
-    "name": "lochview-mobile",
-    "slug": "lochview-mobile",
+    "name": "LochView",
+    "slug": "LochView",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"],
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F6F6F6"
+    }
   },
-  "name": "lochview-mobile"
+  "name": "LochView"
 }
