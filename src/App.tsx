@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import codePush from 'react-native-code-push';
 
 import { ThemeProvider } from 'styled-components/native';
 import theme from './styles/theme';
@@ -17,7 +18,7 @@ import AppLoading from 'expo-app-loading';
 import { Routes } from './routes/index.routes';
 import { AuthProvider } from './contexts/Auth';
 
-export default function App() {
+function App() {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -25,8 +26,14 @@ export default function App() {
     IndieFlower_400Regular,
   });
 
+  useEffect(() => {
+    codePush.sync({
+      installMode: codePush.InstallMode.IMMEDIATE,
+    });
+  }, []);
+
   if (!fontsLoaded) {
-    return <AppLoading />; // teste
+    return <AppLoading />;
   }
 
   return (
@@ -37,3 +44,7 @@ export default function App() {
     </ThemeProvider>
   );
 }
+
+export default codePush({
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+})(App);

@@ -1,10 +1,13 @@
 {
   "main": "index.js",
+  "name": "myskills",
+  "version": "0.0.1",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "web": "expo start --web",
-    "start": "react-native start"
+    "start": "react-native start",
+    "codepush:production": "appcenter codepush release-react -a lmiguelm_/LochView -d Production"
   },
   "dependencies": {
     "@expo-google-fonts/indie-flower": "^0.2.0",
@@ -33,6 +36,7 @@
     "react-hook-form": "^7.16.1",
     "react-native": "~0.63.4",
     "react-native-calendars": "^1.1266.0",
+    "react-native-code-push": "^7.0.4",
     "react-native-fast-image": "^8.5.11",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-image-slider-box": "^1.1.8",
