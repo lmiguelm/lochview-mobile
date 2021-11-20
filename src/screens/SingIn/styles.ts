@@ -37,14 +37,20 @@ export const Form = styled(MotiView)`
   margin: 64px 0;
 `;
 
-export const Link = styled.Text`
+export const LinkContainer = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.7,
+})`
   align-self: flex-end;
+`;
+
+export const Link = styled.Text`
+  /* align-self: flex-end; */
 
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(13)}px;
   color: ${({ theme }) => theme.colors.text_details};
 
-  margin-top: 5px;
+  margin-top: 15px;
 `;
 
 export const Footer = styled(MotiView)``;

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Easing } from 'react-native-reanimated';
-import Analytics from 'appcenter-analytics';
 
 import backgroundImage from '../../assets/home-background.png';
 
@@ -63,10 +62,6 @@ export function Home() {
   const { colors } = useTheme();
 
   const { navigate } = useNavigation();
-
-  useEffect(() => {
-    Analytics.trackEvent('My custom event');
-  }, []);
 
   function handleNavigateToSignIn() {
     navigate('SignIn');

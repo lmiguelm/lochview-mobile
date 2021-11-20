@@ -18,7 +18,7 @@ import AppLoading from 'expo-app-loading';
 import { Routes } from './routes/index.routes';
 import { AuthProvider } from './contexts/Auth';
 
-function App() {
+function AppComponent() {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -27,9 +27,11 @@ function App() {
   });
 
   useEffect(() => {
-    codePush.sync({
-      installMode: codePush.InstallMode.IMMEDIATE,
-    });
+    if (!__DEV__) {
+      codePush.sync({
+        installMode: codePush.InstallMode.IMMEDIATE,
+      });
+    }
   }, []);
 
   if (!fontsLoaded) {
@@ -45,6 +47,14 @@ function App() {
   );
 }
 
-export default codePush({
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-})(App);
+let App;
+
+if (__DEV__) {
+  App = AppComponent;
+} else {
+  App = codePush({
+    checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  })(App);
+}
+
+export default App;

@@ -179,25 +179,27 @@ export function Profile() {
                       ref={inputNameRef}
                       name="name"
                       control={control}
-                      icon="user"
-                      placeholder="Nome"
+                      label="Nome"
                       autoCapitalize="none"
                       autoCorrect={false}
                       onSubmitEditing={() => inputEmailRef.current.focus()}
                       returnKeyType="next"
+                      children={null}
+                      autoComplete={false}
                     />
 
                     <Input
                       ref={inputEmailRef}
                       name="email"
                       control={control}
-                      icon="mail"
-                      placeholder="E-mail"
+                      label="E-mail"
                       autoCapitalize="none"
                       autoCorrect={false}
                       keyboardType="email-address"
                       onSubmitEditing={Keyboard.dismiss}
                       returnKeyType="next"
+                      children={null}
+                      autoComplete={false}
                     />
                   </>
                 ) : (
@@ -206,27 +208,33 @@ export function Profile() {
                       ref={inputPasswordRef}
                       name="password"
                       control={control}
-                      placeholder="Senha atual"
+                      label="Senha autal"
                       onSubmitEditing={() => inputNewPasswordRef.current.focus()}
                       returnKeyType="next"
+                      children={null}
+                      autoComplete={false}
                     />
 
                     <PasswordInput
                       ref={inputNewPasswordRef}
                       name="newPassword"
                       control={control}
-                      placeholder="Nova senha"
+                      label="Nova senha"
                       onSubmitEditing={() => inputConfirmPasswordRef.current.focus()}
                       returnKeyType="next"
+                      children={null}
+                      autoComplete={false}
                     />
 
                     <PasswordInput
                       ref={inputConfirmPasswordRef}
                       name="ConnfirmPassword"
                       control={control}
-                      placeholder="Repetir senha"
+                      label="Repetir senha"
                       onSubmitEditing={Keyboard.dismiss}
                       returnKeyType="next"
+                      children={null}
+                      autoComplete={false}
                     />
                   </>
                 )}

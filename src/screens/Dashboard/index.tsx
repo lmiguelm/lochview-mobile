@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, FlatList, Keyboard, useWindowDimensions } from 'react-native';
-import { Feather, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { Bedroom } from '../../components/Bedroom';
 
-import { Container, Content, Form, Group, Groups, Header } from './styles';
+import { Container, Content, Form, Header } from './styles';
 import { useTheme } from 'styled-components';
 import { SearchInput } from '../../components/SearchInput';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -69,9 +68,11 @@ export function Dashboard() {
             }}
           >
             <SearchInput
+              label="Buscar por quartos"
               value={searchText}
               onChangeText={(value) => setSearchText(value)}
-              placeholder="Buscar por quartos"
+              autoComplete={true}
+              children={null}
             />
           </Form>
         </Header>
@@ -81,7 +82,7 @@ export function Dashboard() {
         </Content>
 
         <FlatList
-          data={loading ? [1, 2, 3, 4, 5] : bedrooms}
+          data={loading ? [1, 2, 3] : bedrooms}
           keyExtractor={(item) => String(item)}
           renderItem={({ item }) => <Bedroom isLoading={loading} key={item} />}
           contentContainerStyle={{

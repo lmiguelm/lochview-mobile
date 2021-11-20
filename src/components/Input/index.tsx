@@ -1,43 +1,41 @@
-import React, { forwardRef, Ref } from 'react';
-import { TextInputProps, TextInput } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import React, { Ref, forwardRef } from 'react';
 import { useController } from 'react-hook-form';
-
-import { Container, IconContainer, InputText } from './styles';
+import { TextInput as TextInputRef } from 'react-native';
+import { TextInput } from 'react-native-paper';
 
 import { useTheme } from 'styled-components';
 
-type Props = TextInputProps & {
-  icon: React.ComponentProps<typeof Feather>['name'];
+type Props = React.ComponentProps<typeof TextInput> & {
   control: any;
   name: string;
-  hasError?: boolean;
 };
 
-export const Input = forwardRef(
-  ({ icon, control, name, hasError = false, ...rest }: Props, ref: Ref<TextInput>) => {
-    const { colors } = useTheme();
+export const Input = forwardRef(({ control, name, ...rest }: Props, ref: Ref<TextInputRef>) => {
+  const { colors, fonts } = useTheme();
 
-    const { field } = useController({
-      control,
-      name,
-      defaultValue: '',
-    });
+  const { field } = useController({
+    control,
+    name,
+    defaultValue: '',
+  });
 
-    return (
-      <Container hasError={hasError}>
-        <IconContainer>
-          <Feather name={icon} size={24} color={hasError ? colors.danger : colors.primary} />
-        </IconContainer>
-
-        <InputText
-          {...rest}
-          ref={ref}
-          value={field.value}
-          onChangeText={field.onChange}
-          onBlur={field.onBlur}
-        />
-      </Container>
-    );
-  }
-);
+  return (
+    <TextInput
+      {...rest}
+      ref={ref}
+      value={field.value}
+      onChangeText={field.onChange}
+      mode="outlined"
+      onBlur={field.onBlur}
+      activeOutlineColor={colors.primary}
+      outlineColor={colors.light}
+      placeholderTextColor={colors.light_dark}
+      selectionColor={colors.primary}
+      style={{
+        backgroundColor: colors.light,
+        fontFamily: fonts.regular,
+        fontSize: 16,
+      }}
+    />
+  );
+});

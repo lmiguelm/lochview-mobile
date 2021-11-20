@@ -1124,6 +1124,14 @@
     "@babel/helper-validator-identifier" "^7.14.9"
     to-fast-properties "^2.0.0"
 
+"@callstack/react-theme-provider@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@callstack/react-theme-provider/-/react-theme-provider-3.0.7.tgz#b7ce1a53d63ad5e83574b831ae0af6b7c6cc40e7"
+  integrity sha512-Ab6rbD2w4u9W3yf7LQQ8evx9m8fZNsoWxt+MFm3AyZnyKQNCJf4K7ip9tHHZgSs+HTdoj38lEqPehvFOVQKvAg==
+  dependencies:
+    deepmerge "^3.2.0"
+    hoist-non-react-statics "^3.3.0"
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -2143,20 +2151,6 @@ anymatch@^2.0.0:
     micromatch "^3.1.4"
     normalize-path "^2.1.1"
 
-appcenter-analytics@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/appcenter-analytics/-/appcenter-analytics-4.3.0.tgz#1463a7a489e2e54fceabe8e784c4ea39e8dcfd40"
-  integrity sha512-8UUkP0DWuL3SHSgVs3Vf08AW2Go02rLmJ9DDXzL+yLqTVp2CY+OBhePEXmeLdGkdAxc1Tz08juF4uvP1j7gtRw==
-  dependencies:
-    appcenter "4.3.0"
-
-appcenter-crashes@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/appcenter-crashes/-/appcenter-crashes-4.3.0.tgz#e6f6be9ab01d42e909479729c3244d34463698db"
-  integrity sha512-q4wqvIL0HwFdnaATEGsAr+5+CSV9oRSaK/H+2TC6l9MLU9zi9nPmUaYVb+iJINxnFJZMUu0Xghhj8qyNIKA03w==
-  dependencies:
-    appcenter "4.3.0"
-
 appcenter-file-upload-client@0.0.24:
   version "0.0.24"
   resolved "https://registry.yarnpkg.com/appcenter-file-upload-client/-/appcenter-file-upload-client-0.0.24.tgz#ba1fb3c0f0073d56168a1853f5e9e9cf38a5114c"
@@ -2179,7 +2173,7 @@ appcenter-link-scripts@4.3.0:
     which "1.2.11"
     xcode "2.0.0"
 
-appcenter@4.3.0, appcenter@^4.3.0:
+appcenter@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/appcenter/-/appcenter-4.3.0.tgz#b490844642c3845cea4a4b569659beeee1baebaa"
   integrity sha512-g0L/fT0zjGxHvHYyvyaBdwMrDleR0Q/F+EUbpESZ0jYQeG5xg965bzjASq+CSs3dN0shWxRkvrx5DTIc73GtGg==
@@ -2831,7 +2825,7 @@ color-support@^1.1.3:
   resolved "https://registry.yarnpkg.com/color-support/-/color-support-1.1.3.tgz#93834379a1cc9a0c61f82f52f0d04322251bd5a2"
   integrity sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==
 
-color@^3.1.3:
+color@^3.1.2, color@^3.1.3:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/color/-/color-3.2.1.tgz#3544dc198caf4490c3ecc9a790b54fe9ff45e164"
   integrity sha512-aBl7dZI9ENN6fUGC7mWpMTPNHmWUSNan9tuWN6ahh5ZLNk9baLJOnSMlrQkHcrfFgz2/RigjUVAjdx36VcemKA==
@@ -6425,6 +6419,15 @@ react-native-material-menu@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-material-menu/-/react-native-material-menu-2.0.0.tgz#139f407a52fbc0d47e5351d50ac769e05812da5c"
   integrity sha512-SmO9PLE3E469EPbVWZqvdu6JGPPZIm7YjqDcWs2PPoY0k7w2V9tFo3BmmLXNzNZDCVCAi+PPSsL7h/5WkfHcSg==
+
+react-native-paper@^4.10.1:
+  version "4.10.1"
+  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.10.1.tgz#aafbc83747a503c8b4cce634aa20a7eb4be8c1d2"
+  integrity sha512-FcwfYyIbhD7bqDy01d0kVL1+T+gjMA1OVMJw3rN7GbUCHRJWI2guEXptNF4QCYiuR80X3WowqxXl6CZPs1757Q==
+  dependencies:
+    "@callstack/react-theme-provider" "^3.0.7"
+    color "^3.1.2"
+    react-native-iphone-x-helper "^1.3.1"
 
 react-native-qrcode-svg@^6.1.1:
   version "6.1.1"

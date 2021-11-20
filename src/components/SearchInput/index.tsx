@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import { TextInputProps } from 'react-native';
+import React from 'react';
+import { TextInput } from 'react-native-paper';
 
-import { Container, Input, Icon } from './styles';
+import { useTheme } from 'styled-components';
 
-type Props = TextInputProps & {};
+type Props = React.ComponentProps<typeof TextInput>;
 
-export function SearchInput({ ...rest }: Props) {
-  const [isFocused, setIsFocused] = useState(false);
-
-  function handleFocus() {
-    setIsFocused(true);
-  }
-
-  function handleBlur() {
-    setIsFocused(false);
-  }
+export function SearchInput({ ...props }: Props) {
+  const { colors, fonts } = useTheme();
 
   return (
-    <Container
+    <TextInput
+      {...props}
+      mode="flat"
+      underlineColor={colors.light_dark}
+      activeUnderlineColor={colors.primary}
+      placeholderTextColor={colors.light_dark}
+      autoCorrect={false}
+      selectionColor={colors.primary}
+      right={<TextInput.Icon name="magnify" disabled={props.value === ''} color={colors.primary} />}
+      returnKeyType="search"
       style={{
-        elevation: 10,
+        backgroundColor: colors.light,
+        fontFamily: fonts.regular,
+        fontSize: 16,
       }}
-    >
-      <Icon active={isFocused} name="search" size={24} />
-      <Input {...rest} onFocus={handleFocus} onBlur={handleBlur} returnKeyType="search" />
-    </Container>
+    />
   );
 }

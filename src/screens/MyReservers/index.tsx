@@ -71,7 +71,9 @@ export function MyReservers() {
             <SearchInput
               value={searchText}
               onChangeText={(value) => setSearchText(value)}
-              placeholder="Buscar reserva"
+              label="Buscar reserva"
+              children={null}
+              autoComplete
             />
           </Form>
         </Header>

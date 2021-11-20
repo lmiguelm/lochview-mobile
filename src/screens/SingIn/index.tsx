@@ -1,8 +1,9 @@
 import React, { useState, Fragment, useRef, useEffect } from 'react';
-import { Keyboard, TextInput } from 'react-native';
+import { Keyboard, TextInput as TextInputRef } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
+import { TextInput } from 'react-native-paper';
 
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,7 +15,7 @@ import { Input } from '../../components/Input';
 import { ToastComponent } from '../../components/Toast';
 import { PasswordInput } from '../../components/PasswordInput';
 
-import { Container, Description, Form, Title, Footer, Link, Header } from './styles';
+import { Container, Description, Form, Title, Footer, Link, Header, LinkContainer } from './styles';
 
 import { useTheme } from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
@@ -47,7 +48,7 @@ export function SignIn() {
     reValidateMode: 'onSubmit',
   });
 
-  const passwordRef = useRef<TextInput>(null);
+  const passwordRef = useRef<TextInputRef>(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -96,7 +97,6 @@ export function SignIn() {
       <Container behavior="position" enabled>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <StatusBar style="dark" translucent={false} backgroundColor={colors.background} />
-
           <Header
             from={{
               opacity: 0,
@@ -131,25 +131,34 @@ export function SignIn() {
             }}
           >
             <Input
-              icon="mail"
-              name="email"
-              placeholder="E-mail"
               control={control}
-              hasError={!!errors.email}
+              name="email"
+              label="E-mail"
+              placeholder="Informe seu e-mail"
+              error={!!errors.email}
               onSubmitEditing={() => passwordRef.current.focus()}
+              autoComplete={true}
+              keyboardType="email-address"
+              returnKeyType="next"
+              children={null}
             />
 
             <PasswordInput
-              name="password"
-              placeholder="Senha"
+              ref={passwordRef}
               control={control}
-              hasError={!!errors.password}
+              name="password"
+              label="Senha"
+              placeholder="Informe sua senha"
+              error={!!errors.password}
               onSubmitEditing={handleSubmit(handleSignIn)}
+              children={null}
+              autoComplete={false}
+              returnKeyType="send"
             />
 
-            <TouchableOpacity activeOpacity={0.7} onPress={handleForgotPassword}>
+            <LinkContainer onPress={handleForgotPassword}>
               <Link>Esqueci a senha</Link>
-            </TouchableOpacity>
+            </LinkContainer>
           </Form>
 
           <Footer
