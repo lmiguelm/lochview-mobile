@@ -6,7 +6,7 @@ import Toast from 'react-native-toast-message';
 import * as Yup from 'yup';
 
 import { BackButton } from '../../../components/BackButton';
-import { Button } from '../../../components/Button';
+import { Button } from '../../../components/Form/Button';
 
 import { Container, Description, Form, Title, Footer, Header, BulletContainer } from './styles';
 
@@ -14,7 +14,7 @@ import { useTheme } from 'styled-components';
 import { ToastComponent } from '../../../components/Toast';
 import { Bullet } from '../../../components/Bullet';
 import { MotiView } from '@motify/components';
-import { PasswordInput } from '../../../components/PasswordInput';
+import { PasswordInput } from '../../../components/Form/PasswordInput';
 
 import { useNavigation } from '@react-navigation/core';
 import { useForm } from 'react-hook-form';
@@ -165,7 +165,9 @@ export function ForgotPasswordThirdStep() {
               autoCorrect={false}
               returnKeyType="next"
               onSubmitEditing={() => confirmPasswordRef.current.focus()}
-              hasError={!!errors.password}
+              error={!!errors.password}
+              children={null}
+              autoCorrect={false}
             />
 
             <PasswordInput
@@ -178,7 +180,7 @@ export function ForgotPasswordThirdStep() {
               autoCorrect={false}
               returnKeyType="done"
               onSubmitEditing={handleSubmit(handleSavePass)}
-              hasError={!!errors.confirmPassword}
+              error={!!errors.confirmPassword}
             />
           </Form>
 

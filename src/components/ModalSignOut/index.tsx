@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Modal } from 'react-native';
 
 import { useTheme } from 'styled-components';
@@ -11,7 +11,7 @@ type Props = {
   onClose: () => void;
 };
 
-export function ModalSignOut({ visible, onClose }: Props) {
+function ModalSignOutComponent({ visible, onClose }: Props) {
   const { colors } = useTheme();
   const { signOut } = useAuth();
 
@@ -51,3 +51,5 @@ export function ModalSignOut({ visible, onClose }: Props) {
     </Modal>
   );
 }
+
+export const ModalSignOut = memo(ModalSignOutComponent);

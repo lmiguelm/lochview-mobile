@@ -4,7 +4,7 @@ import { BackHandler } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Bedroom } from '../../components/Bedroom';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/Form/Button';
 
 import {
   Container,

@@ -6,8 +6,8 @@ import Toast from 'react-native-toast-message';
 import * as Yup from 'yup';
 
 import { BackButton } from '../../../components/BackButton';
-import { Button } from '../../../components/Button';
-import { Input } from '../../../components/Input';
+import { Button } from '../../../components/Form/Button';
+import { Input } from '../../../components/Form/Input';
 
 import { Container, Description, Form, Title, Footer, Header, BulletContainer } from './styles';
 

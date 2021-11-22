@@ -2,6 +2,11 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { Home } from '../screens/Home';
+
+import { RegisterFirstStep } from '../screens/Register/RegisterFirstStep';
+import { RegisterSecondStep } from '../screens/Register/RegisterSecondStep';
+import { RegisterThirdStep } from '../screens/Register/RegisterThirdStep';
+
 import { SignIn } from '../screens/SingIn';
 import { Feedback } from '../screens/Feedback';
 
@@ -17,10 +22,17 @@ export function PublicRoutes() {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Home"
+      initialRouteName="RegisterFirstStep"
     >
       <Screen name="Home" component={Home} />
       <Screen name="SignIn" component={SignIn} />
+
+      <Group>
+        <Screen name="RegisterFirstStep" component={RegisterFirstStep} />
+        <Screen name="RegisterSecondStep" component={RegisterSecondStep} />
+        <Screen name="RegisterThirdStep" component={RegisterThirdStep} />
+      </Group>
+
       <Screen name="Feedback" component={Feedback} />
 
       <Group>

@@ -6,7 +6,7 @@ import { SliderBox } from 'react-native-image-slider-box';
 
 import { Logo } from '../../components/Logo';
 import { BackButton } from '../../components/BackButton';
-import { Button } from '../../components/Button';
+import { Button } from '../../components/Form/Button';
 
 import {
   Container,

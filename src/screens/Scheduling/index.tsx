@@ -20,7 +20,7 @@ import {
   Date as DateText,
 } from './styles';
 
-import { Button } from '../../components/Button';
+import { Button } from '../../components/Form/Button';
 
 import { useTheme } from 'styled-components';
 

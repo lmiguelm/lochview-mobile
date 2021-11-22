@@ -1,42 +1,42 @@
-import React, { useState, Fragment, useRef, useEffect } from 'react';
-import { Keyboard, TextInput as TextInputRef } from 'react-native';
+import React, { useState, Fragment, useEffect } from 'react';
+import { Keyboard } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
-import { TextInput } from 'react-native-paper';
 
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
-import { BackButton } from '../../components/BackButton';
-import { Button } from '../../components/Form/Button';
-import { Input } from '../../components/Form/Input';
-import { ToastComponent } from '../../components/Toast';
-import { PasswordInput } from '../../components/Form/PasswordInput';
+import { BackButton } from '../../../components/BackButton';
+import { Button } from '../../../components/Form/Button';
+import { Input } from '../../../components/Form/Input';
+import { ToastComponent } from '../../../components/Toast';
+import { Picker } from '../../../components/Form/Picker';
 
-import { Container, Description, Form, Title, Footer, Link, Header, LinkContainer } from './styles';
+import { Container, Description, Form, Title, Footer, Header } from './styles';
 
 import { useTheme } from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
-import { useAuth } from '../../hooks/useAuth';
+import { CPFInput } from '../../../components/Form/CPFInput';
 
 const schema = Yup.object()
   .shape({
-    email: Yup.string().required('E-mail é obrigatório!').email('E-mail inválido'),
-    password: Yup.string().required('Senha é obrigatório!'),
+    nome: Yup.string().required('Nome é obrigatório!'),
+    cpf: Yup.string().required('CPF é obrigatório!').length(14, 'CPF inválido'),
   })
   .required();
 
+type Sexo = '' | 'Masculino' | 'Feminino';
+
 type FormData = {
-  email: string;
-  password: string;
+  nome: string;
+  cpf: string;
 };
 
-export function SignIn() {
+export function RegisterThirdStep() {
   const { colors } = useTheme();
   const { navigate } = useNavigation();
-  const { signIn } = useAuth();
 
   const {
     control,
@@ -48,17 +48,17 @@ export function SignIn() {
     reValidateMode: 'onSubmit',
   });
 
-  const passwordRef = useRef<TextInputRef>(null);
-
   const [loading, setLoading] = useState(false);
+
+  const [sexo, setSexo] = useState<Sexo>('');
 
   useEffect(() => {
     let errorMessage = '';
 
-    if (errors.email) {
-      errorMessage = errors.email.message;
-    } else if (errors.password) {
-      errorMessage = errors.password.message;
+    if (errors.nome) {
+      errorMessage = errors.nome.message;
+    } else if (errors.cpf) {
+      errorMessage = errors.cpf.message;
     } else {
       return;
     }
@@ -68,28 +68,26 @@ export function SignIn() {
       text1: 'Ops!',
       text2: errorMessage,
     });
-  }, [errors.email, errors.password]);
+  }, [errors.nome, errors.cpf]);
 
-  async function handleSignIn({ email, password }: FormData) {
+  async function handleNextStep({ nome, cpf }: FormData) {
     try {
-      setLoading(true);
-      await signIn(email, password);
-      navigate('Dashboard');
+      if (sexo === '') throw new Error('Selecione um sexo!');
+
+      const data = {
+        nome,
+        cpf,
+        sexo,
+      };
     } catch (error) {
       setLoading(false);
-
-      console.log(error);
 
       Toast.show({
         type: 'error',
         text1: 'Ops!',
-        text2: 'Ocorreu um erro ao realizar a autenticação!',
+        text2: error.message ?? 'Ocorreu um erro ao realizar a autenticação!',
       });
     }
-  }
-
-  function handleForgotPassword() {
-    navigate('ForgotPasswordFirstStep');
   }
 
   return (
@@ -112,8 +110,8 @@ export function SignIn() {
           >
             <BackButton />
 
-            <Title>Estamos{'\n'}quase lá.</Title>
-            <Description>Faça seu login para começar{'\n'}uma experiência incrível.</Description>
+            <Title>Quem é você?</Title>
+            <Description>Preencha o formulário abaixo para se cadastrar</Description>
           </Header>
 
           <Form
@@ -132,33 +130,40 @@ export function SignIn() {
           >
             <Input
               control={control}
-              name="email"
-              label="E-mail"
-              placeholder="Informe seu e-mail"
-              error={!!errors.email}
-              onSubmitEditing={() => passwordRef.current.focus()}
+              name="nome"
+              label="Nome"
+              placeholder="Informe seu nome"
+              error={!!errors.nome}
               autoComplete={true}
-              keyboardType="email-address"
               returnKeyType="next"
               children={null}
             />
 
-            <PasswordInput
-              ref={passwordRef}
+            <Picker
+              placeholder="Selecione seu sexo"
+              selectedValue={sexo}
+              onValueChange={(value: Sexo) => setSexo(value)}
+              options={[
+                {
+                  label: 'Masculino',
+                  value: 'Masculino',
+                },
+                {
+                  label: 'Feminino',
+                  value: 'Feminino',
+                },
+              ]}
+            />
+
+            <CPFInput
               control={control}
-              name="password"
-              label="Senha"
-              placeholder="Informe sua senha"
-              error={!!errors.password}
-              onSubmitEditing={handleSubmit(handleSignIn)}
+              name="cpf"
+              error={!!errors.cpf}
+              onSubmitEditing={handleSubmit(handleNextStep)}
               children={null}
               autoComplete={false}
               returnKeyType="send"
             />
-
-            <LinkContainer onPress={handleForgotPassword}>
-              <Link>Esqueci a senha</Link>
-            </LinkContainer>
           </Form>
 
           <Footer
@@ -176,10 +181,9 @@ export function SignIn() {
             }}
           >
             <Button
-              title="Entrar"
+              title="Continuar"
               loading={loading}
-              onPress={handleSubmit(handleSignIn) as any}
-              enabled={true}
+              onPress={handleSubmit(handleNextStep) as any}
             />
           </Footer>
         </TouchableWithoutFeedback>

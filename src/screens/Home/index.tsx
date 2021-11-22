@@ -7,7 +7,7 @@ import backgroundImage from '../../assets/home-background.png';
 import { useTheme } from 'styled-components';
 import { useNavigation } from '@react-navigation/native';
 
-import { Button } from '../../components/Button';
+import { Button } from '../../components/Form/Button';
 
 import { Container, Footer, Title } from './styles';
 

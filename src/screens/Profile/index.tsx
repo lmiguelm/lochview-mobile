@@ -30,12 +30,12 @@ import {
   Footer,
 } from './styles';
 
-import { Button } from '../../components/Button';
-import { Input } from '../../components/Input';
+import { Button } from '../../components/Form/Button';
+import { Input } from '../../components/Form/Input';
 
 import { useTheme } from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { PasswordInput } from '../../components/PasswordInput';
+import { PasswordInput } from '../../components/Form/PasswordInput';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 type FormData = {

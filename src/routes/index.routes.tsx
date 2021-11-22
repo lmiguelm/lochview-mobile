@@ -13,20 +13,33 @@ export type FeedbackParams = {
   nextScreen: string;
 };
 
+export type RegisterSecondStepParams = {
+  nome: string;
+  cpf: string;
+  genero: string;
+};
+
 declare global {
   namespace ReactNavigation {
     interface RootParamList {
       Home: undefined;
       SignIn: undefined;
+
+      RegisterFirstStep: undefined;
+      RegisterSecondStep: RegisterSecondStepParams;
+      RegisterThirdStep: undefined;
+
       ForgotPasswordFirstStep: undefined;
       ForgotPasswordSecondStep: undefined;
       ForgotPasswordThirdStep: undefined;
+
       Feedback: FeedbackParams;
       Dashboard: undefined;
       BedroomDetails: undefined;
       Scheduling: undefined;
       Confirmation: undefined;
       PrivateDrawer: undefined;
+      Register: undefined;
     }
   }
 }

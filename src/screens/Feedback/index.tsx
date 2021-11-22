@@ -2,7 +2,7 @@ import React from 'react';
 import LottieView from 'lottie-react-native';
 import { StatusBar } from 'expo-status-bar';
 
-import { Button } from '../../components/Button';
+import { Button } from '../../components/Form/Button';
 
 import { Container, Content, Description, Title } from './styles';
 

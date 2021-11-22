@@ -7,7 +7,7 @@ import { Bedroom } from '../../components/Bedroom';
 
 import { Container, Content, Form, Header, ReserveLabel, ReserveValue } from './styles';
 import { useTheme } from 'styled-components';
-import { SearchInput } from '../../components/SearchInput';
+import { SearchInput } from '../../components/Form/SearchInput';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { Filter } from '../../components/Filter';
