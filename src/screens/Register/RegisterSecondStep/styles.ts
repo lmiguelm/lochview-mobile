@@ -3,9 +3,7 @@ import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { MotiView } from '@motify/components';
 
-export const Container = styled.KeyboardAvoidingView`
-  flex: 1;
-
+export const Container = styled.ScrollView`
   background-color: ${({ theme }) => theme.colors.background};
 
   padding: ${getStatusBarHeight()}px 30px 30px 30px;
@@ -53,4 +51,6 @@ export const Link = styled.Text`
   margin-top: 15px;
 `;
 
-export const Footer = styled(MotiView)``;
+export const Footer = styled(MotiView)`
+  margin-bottom: 60px;
+`;

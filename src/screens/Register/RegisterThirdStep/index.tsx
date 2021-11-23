@@ -12,31 +12,36 @@ import { BackButton } from '../../../components/BackButton';
 import { Button } from '../../../components/Form/Button';
 import { Input } from '../../../components/Form/Input';
 import { ToastComponent } from '../../../components/Toast';
-import { Picker } from '../../../components/Form/Picker';
 
 import { Container, Description, Form, Title, Footer, Header } from './styles';
 
 import { useTheme } from 'styled-components';
-import { useNavigation } from '@react-navigation/native';
-import { CPFInput } from '../../../components/Form/CPFInput';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { PasswordInput } from '../../../components/Form/PasswordInput';
+import { RegisterSecondThirdParams } from '../../../routes/index.routes';
+import { useAuth } from '../../../hooks/useAuth';
 
 const schema = Yup.object()
   .shape({
-    nome: Yup.string().required('Nome é obrigatório!'),
-    cpf: Yup.string().required('CPF é obrigatório!').length(14, 'CPF inválido'),
+    email: Yup.string().required('E-mail é obrigatório!').email('E-mail inválido'),
+    senha: Yup.string().required('Senha é obrigatória!'),
+    confirmacao: Yup.string().required('Confirmação de senha obrigatória!'),
   })
   .required();
 
-type Sexo = '' | 'Masculino' | 'Feminino';
-
 type FormData = {
-  nome: string;
-  cpf: string;
+  email: string;
+  senha: string;
+  confirmacao: string;
 };
 
 export function RegisterThirdStep() {
   const { colors } = useTheme();
   const { navigate } = useNavigation();
+  const { signIn } = useAuth();
+
+  const { params } = useRoute();
+  const user = params as RegisterSecondThirdParams;
 
   const {
     control,
@@ -49,8 +54,6 @@ export function RegisterThirdStep() {
   });
 
   const [loading, setLoading] = useState(false);
-
-  const [sexo, setSexo] = useState<Sexo>('');
 
   useEffect(() => {
     let errorMessage = '';
@@ -70,15 +73,23 @@ export function RegisterThirdStep() {
     });
   }, [errors.nome, errors.cpf]);
 
-  async function handleNextStep({ nome, cpf }: FormData) {
-    try {
-      if (sexo === '') throw new Error('Selecione um sexo!');
+  async function handleRegister({ email, senha, confirmacao }: FormData) {
+    if (senha !== confirmacao) {
+      throw new Error('As senhas não são iguais!');
+    }
 
-      const data = {
-        nome,
-        cpf,
-        sexo,
+    try {
+      const registerData = {
+        cpf: user.cpf,
+        email,
+        senha,
       };
+
+      // criar usuário
+
+      // salvar endereço e telefone
+
+      signIn(email, senha);
     } catch (error) {
       setLoading(false);
 
@@ -110,8 +121,8 @@ export function RegisterThirdStep() {
           >
             <BackButton />
 
-            <Title>Quem é você?</Title>
-            <Description>Preencha o formulário abaixo para se cadastrar</Description>
+            <Title>Falta pouco</Title>
+            <Description>Cadastre suas informações para login</Description>
           </Header>
 
           <Form
@@ -130,39 +141,36 @@ export function RegisterThirdStep() {
           >
             <Input
               control={control}
-              name="nome"
-              label="Nome"
-              placeholder="Informe seu nome"
-              error={!!errors.nome}
+              name="email"
+              label="E-mail"
+              placeholder="Informe seu e-mail"
+              error={!!errors.email}
               autoComplete={true}
               returnKeyType="next"
               children={null}
             />
 
-            <Picker
-              placeholder="Selecione seu sexo"
-              selectedValue={sexo}
-              onValueChange={(value: Sexo) => setSexo(value)}
-              options={[
-                {
-                  label: 'Masculino',
-                  value: 'Masculino',
-                },
-                {
-                  label: 'Feminino',
-                  value: 'Feminino',
-                },
-              ]}
+            <PasswordInput
+              control={control}
+              name="senha"
+              label="Senha"
+              placeholder="Informe sua senha"
+              children={null}
+              autoComplete={true}
+              returnKeyType="next"
+              error={!!errors.senha}
             />
 
-            <CPFInput
+            <PasswordInput
               control={control}
-              name="cpf"
-              error={!!errors.cpf}
-              onSubmitEditing={handleSubmit(handleNextStep)}
+              name="confirmacao"
+              label="Confirmação"
+              placeholder="Repita sua senha"
               children={null}
-              autoComplete={false}
-              returnKeyType="send"
+              autoComplete={true}
+              returnKeyType="next"
+              error={!!errors.confirmacao}
+              onSubmitEditing={handleSubmit(handleRegister)}
             />
           </Form>
 
@@ -181,9 +189,9 @@ export function RegisterThirdStep() {
             }}
           >
             <Button
-              title="Continuar"
+              title="Finalizar"
               loading={loading}
-              onPress={handleSubmit(handleNextStep) as any}
+              onPress={handleSubmit(handleRegister) as any}
             />
           </Footer>
         </TouchableWithoutFeedback>

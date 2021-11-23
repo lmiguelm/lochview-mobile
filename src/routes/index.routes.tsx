@@ -19,6 +19,17 @@ export type RegisterSecondStepParams = {
   genero: string;
 };
 
+export type RegisterSecondThirdParams = {
+  nome: string;
+  cpf: string;
+  genero: string;
+  estado: string;
+  cep: string;
+  cidade: string;
+  endereco: string;
+  complemento: string;
+};
+
 declare global {
   namespace ReactNavigation {
     interface RootParamList {
@@ -27,7 +38,7 @@ declare global {
 
       RegisterFirstStep: undefined;
       RegisterSecondStep: RegisterSecondStepParams;
-      RegisterThirdStep: undefined;
+      RegisterThirdStep: RegisterSecondThirdParams;
 
       ForgotPasswordFirstStep: undefined;
       ForgotPasswordSecondStep: undefined;

@@ -18,22 +18,23 @@ import { Container, Description, Form, Title, Footer, Header } from './styles';
 
 import { useTheme } from 'styled-components';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { CPFInput } from '../../../components/Form/CPFInput';
 
-import { RegisterSecondStepParams } from '../../../routes/index.routes';
+import { RegisterSecondStepParams, RegisterSecondThirdParams } from '../../../routes/index.routes';
 import { states } from '../../../utils/states';
 import { CEPInput } from '../../../components/Form/CEPInput';
+import { Textarea } from '../../../components/Form/Textarea';
 
 const schema = Yup.object()
   .shape({
-    nome: Yup.string().required('Nome é obrigatório!'),
-    cpf: Yup.string().required('CPF é obrigatório!').length(14, 'CPF inválido'),
+    cidade: Yup.string().required('Cidade é obrigatória!'),
+    endereco: Yup.string().required('Endereço é obrigatório!'),
   })
   .required();
 
 type FormData = {
-  nome: string;
-  cpf: string;
+  cidade: string;
+  endereco: string;
+  complemento: string;
 };
 
 type ResponseCepAPI = {
@@ -100,15 +101,21 @@ export function RegisterSecondStep() {
     setEstado(state);
   }
 
-  async function handleNextStep({ nome, cpf }: FormData) {
+  async function handleNextStep({ cidade, endereco, complemento }: FormData) {
     try {
-      if (cep === '') throw new Error('Selecione um sexo!');
+      if (cep === '') throw new Error('CEP é obrigatório!');
+      if (estado === '') throw new Error('Estado é obrigatório!');
 
       const data = {
-        nome,
-        cpf,
+        ...newUser,
+        estado,
         cep,
-      };
+        cidade,
+        endereco,
+        complemento,
+      } as RegisterSecondThirdParams;
+
+      navigate('RegisterThirdStep', data);
     } catch (error) {
       setLoading(false);
 
@@ -122,7 +129,7 @@ export function RegisterSecondStep() {
 
   return (
     <Fragment>
-      <Container behavior="position" enabled>
+      <Container>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <StatusBar style="dark" translucent={false} backgroundColor={colors.background} />
           <Header
@@ -191,6 +198,17 @@ export function RegisterSecondStep() {
               label="Endereço"
               placeholder="Informe seu endereço "
               error={!!errors.endereco}
+              autoComplete={true}
+              returnKeyType="next"
+              children={null}
+            />
+
+            <Textarea
+              control={control}
+              name="complemento"
+              label="Complemento"
+              placeholder="Complemento opcional"
+              error={!!errors.complemento}
               autoComplete={true}
               returnKeyType="next"
               children={null}

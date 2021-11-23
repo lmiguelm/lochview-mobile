@@ -14,6 +14,7 @@ import { Input } from '../../../components/Form/Input';
 import { ToastComponent } from '../../../components/Toast';
 import { Picker } from '../../../components/Form/Picker';
 import { CPFInput } from '../../../components/Form/CPFInput';
+import { PhoneInput } from '../../../components/Form/PhoneInput';
 
 import { Container, Description, Form, Title, Footer, Header } from './styles';
 
@@ -25,7 +26,8 @@ import { Genero } from '../types';
 const schema = Yup.object()
   .shape({
     nome: Yup.string().required('Nome é obrigatório!'),
-    cpf: Yup.string().required('CPF é obrigatório!').length(14, 'CPF inválido'),
+    cpf: Yup.string().required('CPF é obrigatório!').length(14, 'CPF inválido!'),
+    telefone: Yup.string().required('Telefone é obrigatório!').length(19, 'Telefone inválido!'),
   })
   .required();
 
@@ -59,6 +61,8 @@ export function RegisterFirstStep() {
       errorMessage = errors.nome.message;
     } else if (errors.cpf) {
       errorMessage = errors.cpf.message;
+    } else if (errors.telefone) {
+      errorMessage = errors.telefone.message;
     } else {
       return;
     }
@@ -68,7 +72,7 @@ export function RegisterFirstStep() {
       text1: 'Ops!',
       text2: errorMessage,
     });
-  }, [errors.nome, errors.cpf]);
+  }, [errors.nome, errors.cpf, errors.telefone]);
 
   async function handleNextStep({ nome, cpf }: FormData) {
     try {
@@ -162,6 +166,15 @@ export function RegisterFirstStep() {
             <CPFInput
               control={control}
               name="cpf"
+              error={!!errors.cpf}
+              children={null}
+              autoComplete={false}
+              returnKeyType="next"
+            />
+
+            <PhoneInput
+              control={control}
+              name="telefone"
               error={!!errors.cpf}
               onSubmitEditing={handleSubmit(handleNextStep)}
               children={null}
