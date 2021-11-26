@@ -66,7 +66,9 @@ export function Home() {
   function handleNavigateToSignIn() {
     navigate('SignIn');
   }
-  function handleNavigateToRegister() {}
+  function handleNavigateToRegister() {
+    navigate('RegisterFirstStep');
+  }
 
   return (
     <Container source={backgroundImage}>
@@ -88,7 +90,7 @@ export function Home() {
         <Button title="Entrar" onPress={handleNavigateToSignIn} />
 
         <Button
-          title="Começar"
+          title="Sou novo"
           background={colors.light}
           light
           onPress={handleNavigateToRegister}

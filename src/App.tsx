@@ -16,6 +16,7 @@ import { IndieFlower_400Regular } from '@expo-google-fonts/indie-flower';
 import AppLoading from 'expo-app-loading';
 
 import { Routes } from './routes/index.routes';
+
 import { AuthProvider } from './contexts/Auth';
 
 function AppComponent() {

@@ -22,7 +22,7 @@ export function PublicRoutes() {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="RegisterFirstStep"
+      initialRouteName="Home"
     >
       <Screen name="Home" component={Home} />
       <Screen name="SignIn" component={SignIn} />

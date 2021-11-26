@@ -73,8 +73,7 @@ export function SignIn() {
   async function handleSignIn({ email, password }: FormData) {
     try {
       setLoading(true);
-      await signIn(email, password);
-      navigate('Dashboard');
+      navigate('PrivateDrawer');
     } catch (error) {
       setLoading(false);
 
